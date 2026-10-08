@@ -1,0 +1,5 @@
+# Product retention policy (requires legal review)
+
+Originals: target 30 days after each media upload, including a late resolution photo. Privacy-reviewed derivatives and exact GPS: target 180 days after closure. Public report: archive and hide after 730 days. Unattached uploads expire after 24 hours. Device drafts expire after seven days. No raw OTP is retained; a real OTP flow is not implemented. Compliance records and minimal tombstones need a separately approved schedule; no legal retention term is asserted.
+
+Worker supports dry-run/execute and logs only record ID, policy, decision and timestamp. Legal hold prevents report-linked automated destruction. Execute is explicit and adds an execution audit. Object storage operations are not atomic with the database transaction; reconciliation/outbox hardening is required before production. Backup/object-version retention must be bounded, with deletion tombstones reapplied upon restore. Production restore tests and legal hold approval are release tasks.

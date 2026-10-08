@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgis/postgis:17-3.5
+    environment:
+      POSTGRES_USER: denguespot
+      POSTGRES_DB: denguespot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U denguespot -d denguespot]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+  web:
+    build:
+      context: .
+      target: web
+    env_file: .env
+    environment:
+      DATA_BACKEND: postgres
+      DATABASE_URL: postgresql://denguespot:${POSTGRES_PASSWORD}@postgres:5432/denguespot
+      DATA_DIR: /data
+      DEMO_MODE: "true"
+      STORAGE_BACKEND: local
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - media:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+  worker:
+    build:
+      context: .
+      target: worker
+    env_file: .env
+    environment:
+      DATA_BACKEND: postgres
+      DATABASE_URL: postgresql://denguespot:${POSTGRES_PASSWORD}@postgres:5432/denguespot
+      DATA_DIR: /data
+      DEMO_MODE: "true"
+      STORAGE_BACKEND: local
+    volumes:
+      - media:/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  postgres:
+  media:

@@ -1,0 +1,23 @@
+{
+  "name": "@denguespot/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build --webpack",
+    "start": "node ../../scripts/start-production.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "idb": "^8.0.3",
+    "jsqr": "1.4.0",
+    "lucide-react": "^0.554.0",
+    "maplibre-gl": "^6.4.1",
+    "next": "16.4.0",
+    "qrcode": "^1.5.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "^4.1.17"
+  }
+}

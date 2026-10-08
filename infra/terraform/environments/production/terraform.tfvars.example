@@ -1,0 +1,9 @@
+region = "CONFIGURE_LEGALLY_REVIEWED_REGION"
+environment = "production"
+name = "denguespot-production"
+availability_zones = ["CONFIGURE_AZ_A", "CONFIGURE_AZ_B"]
+web_image = "CONFIGURE_ECR_IMAGE_DIGEST"
+worker_image = "CONFIGURE_ECR_WORKER_DIGEST"
+certificate_arn = "CONFIGURE_ACM_CERTIFICATE_ARN"
+app_url = "https://CONFIGURE_APPROVED_HOST"
+application_secret_arn = "CONFIGURE_SECRET_ARN"

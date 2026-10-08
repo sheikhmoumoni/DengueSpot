@@ -1,0 +1,9 @@
+region = "ap-south-1"
+environment = "staging"
+name = "denguespot-staging"
+availability_zones = ["ap-south-1a", "ap-south-1b"]
+web_image = "CONFIGURE_ECR_IMAGE_DIGEST"
+worker_image = "CONFIGURE_ECR_WORKER_DIGEST"
+certificate_arn = "CONFIGURE_ACM_CERTIFICATE_ARN"
+app_url = "https://CONFIGURE_STAGING_HOST"
+application_secret_arn = "CONFIGURE_SECRET_ARN"

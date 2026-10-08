@@ -1,0 +1,50 @@
+{
+  "name": "denguespot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.2",
+  "scripts": {
+    "dev": "pnpm --filter @denguespot/web dev",
+    "build": "pnpm --filter @denguespot/web build",
+    "start": "pnpm --filter @denguespot/web start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit && pnpm --filter @denguespot/web typecheck",
+    "test": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:e2e": "playwright test",
+    "db:migrate": "tsx --env-file-if-exists=.env packages/db/src/migrate.ts",
+    "db:seed": "tsx --env-file-if-exists=.env packages/db/seeds/seed.ts",
+    "worker": "tsx --env-file-if-exists=.env apps/worker/src/index.ts",
+    "retention:dry-run": "tsx --env-file-if-exists=.env apps/worker/src/retention.ts",
+    "retention:execute": "tsx --env-file-if-exists=.env apps/worker/src/retention.ts --execute",
+    "security:scan": "node scripts/security-scan.mjs",
+    "demo:setup": "node scripts/setup-demo.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@eslint/js": "^9.39.0",
+    "@fontsource-variable/noto-sans-bengali": "^5.3.0",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^24.10.0",
+    "@types/pg": "^8.15.6",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "eslint": "^9.39.0",
+    "prettier": "3.8.1",
+    "qrcode": "1.5.4",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.0",
+    "vitest": "^4.0.8"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1147.0",
+    "@aws-sdk/s3-request-presigner": "^3.1147.0",
+    "@supabase/supabase-js": "^2.86.0",
+    "pg": "^8.16.3",
+    "sharp": "^0.35.5",
+    "zod": "^4.1.12"
+  }
+}

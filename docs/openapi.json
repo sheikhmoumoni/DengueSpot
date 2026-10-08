@@ -1,0 +1,1888 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DengueSpot scaffold API",
+    "version": "0.1.0",
+    "description": "API.md and server Zod schemas are authoritative for action-specific preconditions. This contract inventories implemented routes; optional transport and direct-storage flows are not claimed."
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Read /health",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ready": {
+      "get": {
+        "summary": "Read /ready",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_ready",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config": {
+      "get": {
+        "summary": "Read /config",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_config",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/session": {
+      "get": {
+        "summary": "Read /auth/session",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_auth_session",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "summary": "Read /reports",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_reports",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create report with stable idempotency key",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "201": {
+            "description": "Created; returns report and private trackingToken"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/public": {
+      "get": {
+        "summary": "Read /analytics/public",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_analytics_public",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/demo": {
+      "post": {
+        "summary": "Synthetic demo login",
+        "description": "Demo mode. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_auth_demo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "profileId": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "profileId",
+                  "password"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Configured identity login",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_auth_login",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "maxLength": 200
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Clear sign-in session",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_auth_logout",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media/uploads": {
+      "post": {
+        "summary": "Upload consented evidence",
+        "description": "Consent; after-photo requires scoped officer. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_media_uploads",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "201": {
+            "description": "Uploaded; mediaId and privacyReviewRequired"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "photo": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "clientReportId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "kind": {
+                    "enum": [
+                      "before",
+                      "after"
+                    ]
+                  },
+                  "consent": {
+                    "const": "true"
+                  },
+                  "reportId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "photo",
+                  "clientReportId",
+                  "consent"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/media/{mediaId}": {
+      "get": {
+        "summary": "Authorized or reviewed derivative",
+        "description": "Owner/scoped officer/moderator or reviewed public evidence. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_media__mediaId_",
+        "parameters": [
+          {
+            "name": "mediaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "original",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Only owner or scoped officer/supervisor can request original-quality sanitized evidence"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          },
+          {}
+        ]
+      }
+    },
+    "/reports/duplicates": {
+      "post": {
+        "summary": "Recent nearby public suggestions",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports_duplicates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "lat": {
+                    "type": "number",
+                    "minimum": 20,
+                    "maximum": 27
+                  },
+                  "lng": {
+                    "type": "number",
+                    "minimum": 88,
+                    "maximum": 93
+                  }
+                },
+                "required": [
+                  "lat",
+                  "lng"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}": {
+      "get": {
+        "summary": "Read public report",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_reports__id_",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/private": {
+      "get": {
+        "summary": "Read private",
+        "description": "Scoped officer; events also allow owner. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_reports__id__private",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ]
+      }
+    },
+    "/reports/{id}/events": {
+      "get": {
+        "summary": "Read events",
+        "description": "Scoped officer; events also allow owner. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_reports__id__events",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ]
+      }
+    },
+    "/my-reports": {
+      "get": {
+        "summary": "Signed-in reporter records",
+        "description": "Authenticated owner. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_my_reports",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ]
+      }
+    },
+    "/reports/{id}/status": {
+      "post": {
+        "summary": "Human status",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__status",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Human status",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "patch_report_status",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/verify": {
+      "post": {
+        "summary": "Human verify",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__verify",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/assign": {
+      "post": {
+        "summary": "Human assign",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__assign",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/resolve": {
+      "post": {
+        "summary": "Human resolve",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__resolve",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/evidence": {
+      "post": {
+        "summary": "Confirm uploaded after-photo",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__evidence",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "mediaId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                },
+                "required": [
+                  "mediaId"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/flags": {
+      "post": {
+        "summary": "Flag for moderation",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__flags",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "reason": {
+                    "enum": [
+                      "spam",
+                      "duplicate",
+                      "privacy",
+                      "harassment",
+                      "illegal_content",
+                      "unrelated",
+                      "unsafe_media",
+                      "misleading",
+                      "other"
+                    ]
+                  }
+                },
+                "required": [
+                  "reason"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports/{id}/duplicate": {
+      "post": {
+        "summary": "Link duplicate",
+        "description": "Moderator. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_reports__id__duplicate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "target": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "target",
+                  "reason"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/authority/dashboard": {
+      "get": {
+        "summary": "Scoped operations data",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_authority_dashboard",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/authority/reports": {
+      "get": {
+        "summary": "Scoped operations data",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_authority_reports",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/analytics/authority": {
+      "get": {
+        "summary": "Scoped operations data",
+        "description": "Matching-jurisdiction authority. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_analytics_authority",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/authority/export": {
+      "get": {
+        "summary": "Formula-safe coarse CSV",
+        "description": "Scoped supervisor. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_authority_export",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/moderation": {
+      "get": {
+        "summary": "Private moderation queue",
+        "description": "Moderator. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_moderation",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/moderation/{id}": {
+      "post": {
+        "summary": "Moderate and attest publication",
+        "description": "Moderator. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_moderation__id_",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Moderation"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/qr/resolve": {
+      "post": {
+        "summary": "Verify signed expiring site identity",
+        "description": "Public. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_qr_resolve",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data-rights/access": {
+      "post": {
+        "summary": "Owner access",
+        "description": "Owner session or tracking credential. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_data_rights_access",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RightsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data-rights/delete": {
+      "post": {
+        "summary": "Owner delete",
+        "description": "Owner session or tracking credential. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_data_rights_delete",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RightsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data-rights/withdraw": {
+      "post": {
+        "summary": "Owner withdraw",
+        "description": "Owner session or tracking credential. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_data_rights_withdraw",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RightsInput"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/data-rights/requests/{receiptId}": {
+      "get": {
+        "summary": "Private rights receipt status",
+        "description": "Owner session or tracking credential. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "get_data_rights_requests__receiptId_",
+        "parameters": [
+          {
+            "name": "receiptId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "request": {
+                      "$ref": "#/components/schemas/Receipt"
+                    }
+                  },
+                  "required": [
+                    "request"
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          },
+          {
+            "tracking": []
+          }
+        ]
+      }
+    },
+    "/webhooks/sms/{provider}": {
+      "post": {
+        "summary": "Disabled contract-specific webhook boundary",
+        "description": "Configured signed provider. See API.md for semantics, role restrictions and implementation boundaries.",
+        "operationId": "post_webhooks_sms__provider_",
+        "parameters": [
+          {
+            "name": "provider",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success; response shape varies by operation"
+          },
+          "default": {
+            "description": "Validated error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": []
+          },
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Location": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lat": {
+            "type": "number",
+            "minimum": 20,
+            "maximum": 27
+          },
+          "lng": {
+            "type": "number",
+            "minimum": 88,
+            "maximum": 93
+          },
+          "accuracyMeters": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "source": {
+            "enum": [
+              "gps",
+              "manual"
+            ]
+          }
+        },
+        "required": [
+          "lat",
+          "lng",
+          "accuracyMeters",
+          "source"
+        ]
+      },
+      "ReportInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "clientReportId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "locale": {
+            "enum": [
+              "bn-BD",
+              "en-BD"
+            ]
+          },
+          "category": {
+            "enum": [
+              "standing_water",
+              "water_container",
+              "construction",
+              "drain",
+              "tire_or_waste",
+              "rooftop",
+              "public_space",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "locationNote": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "location": {
+            "$ref": "#/components/schemas/Location"
+          },
+          "mediaId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "capturedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "consentVersion": {
+            "const": "2026-10-v1"
+          },
+          "consent": {
+            "const": true
+          },
+          "website": {
+            "type": "string",
+            "maxLength": 0
+          }
+        },
+        "required": [
+          "clientReportId",
+          "locale",
+          "category",
+          "description",
+          "locationNote",
+          "location",
+          "mediaId",
+          "capturedAt",
+          "consentVersion",
+          "consent"
+        ]
+      },
+      "PublicReport": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "publicId": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "standing_water",
+              "water_container",
+              "construction",
+              "drain",
+              "tire_or_waste",
+              "rooftop",
+              "public_space",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "publicLocation": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "lat": {
+                "type": "number"
+              },
+              "lng": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "lat",
+              "lng"
+            ]
+          },
+          "area": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "submitted",
+              "under_review",
+              "verified",
+              "assigned",
+              "in_progress",
+              "resolved",
+              "rejected",
+              "duplicate",
+              "withdrawn",
+              "archived"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "privacyReviewed": {
+            "type": "boolean"
+          },
+          "resolutionNote": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "publicId",
+          "category",
+          "description",
+          "publicLocation",
+          "area",
+          "status",
+          "createdAt",
+          "updatedAt",
+          "privacyReviewed",
+          "resolutionNote"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "fieldErrors": {
+                "type": "object"
+              }
+            }
+          },
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "error",
+          "requestId"
+        ]
+      },
+      "Action": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "enum": [
+              "draft",
+              "submitted",
+              "under_review",
+              "verified",
+              "assigned",
+              "in_progress",
+              "resolved",
+              "rejected",
+              "duplicate",
+              "withdrawn",
+              "archived"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "assignee": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "mediaId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": []
+      },
+      "RightsInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "publicId": {
+            "type": "string",
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "publicId"
+        ]
+      },
+      "Receipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "enum": [
+              "access",
+              "delete",
+              "withdraw"
+            ]
+          },
+          "status": {
+            "const": "completed"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "status",
+          "createdAt"
+        ]
+      },
+      "Moderation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "enum": [
+              "hide",
+              "release",
+              "reject",
+              "duplicate"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "target": {
+            "type": "string",
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "action",
+          "reason"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "session": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "dsp_access",
+        "description": "Real verified Auth session; explicit demo uses dsp_session instead"
+      },
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "tracking": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-tracking-token",
+        "description": "Only owner routes accept this; it never grants an authority/moderator role"
+      }
+    }
+  }
+}
